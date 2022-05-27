@@ -16,69 +16,53 @@
 }
 </style>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar1">
-            <ul class="navbar-nav">
-         <!--level 1-->
-             {% for item in menu_items %}
-             {% if item.sub_menu %}
-                <li class="nav-item dropdown{{item.active_class}}">
-                   <a href="{{ item.href }}" id="menu" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" data-bs-display="static">{{ item.text }}</a>
+{% load wagtailimages_tags blog_tags %}
 
-                    <ul class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ item.href }}"><b>{{ item.text }}</b></a>
-            <!--level 2-->
-                        {% for sub_item in item.sub_menu.items %}
-                        {% if sub_item.has_children_in_menu %}
-                        <li class="dropdown-submenu">
-                            <a href="{{ sub_item.href }}" data-bs-toggle="dropdown" class="dropdown-item dropdown-toggle">{{ sub_item.text }}</a>
-                            <ul class="dropdown-menu">
-                                {% if sub_item.has_children_in_menu %}
-                                <a class="dropdown-item" href="{{ sub_item.href }}"><b>{{ sub_item.text }}</b></a>
+{% get_menu "main" as navigation %}
+{% company_logo as logo %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+    <a class="navbar-brand" href="/">{% image logo.logo fill-50x50 %}{{ logo.name }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mr-5">
+            {% for item in navigation %}
+                {% get_menu item.slug item.page as submenu %}
+                <li class="{% if submenu %}dropdown {% endif %}p-2">
+                    <div class="dropdown show">
+                        <a href="{{ item.url }}"
+                                {% if submenu %} class="menuitem dropdown-toggle {% if item.icon %}menuicon{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                {% else %} data-toggle="tooltip" title="{{ item.title }}" class="menuitem"
                                 {% endif %}
-            <!--level 3-->
-                        {% for subsub_item in sub_item.sub_menu.items %}
-                        {% if subsub_item.has_children_in_menu %}
-                        <li class="dropdown-submenu">
-                            <a href="{{ subsub_item.href }}" data-bs-toggle="dropdown" class="dropdown-item dropdown-toggle">{{ subsub_item.text }}</a>
-                            <ul class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ subsub_item.href }}"><b>{{ subsub_item.text }}</b></a>
-            <!--level 4-->
-                        {% for subsubsub_item in subsub_item.sub_menu.items %}
-                          <li><a class="dropdown-item" href="{{ subsubsub_item.href }}">{{ subsubsub_item.text }}</a></li>
-                        {% endfor %}
-            <!--end level 4-->
-                             </ul>
-                            </li>
+                        >
+                            {% if item.icon %}
+                                {% image item.icon fill-30x30 class="image-menu" %}
                             {% else %}
-                        <li><a class="dropdown-item" href="{{ subsub_item.href }}">{{ subsub_item.text }}</a></li>
+                                {{ item.title }}
+                            {% endif %}
+                        </a>
+                        {% if submenu %}
+                            <div class="dropdown-menu">
+                                {% for subitem in submenu %}
+                                    <a href="{{ subitem.url }}" class="dropdown-item menuitem p-2 {% if subitem.icon %}menuicon{% endif %}">
+                                        {% if subitem.icon %}
+                                            {% image subitem.icon fill-30x30 class="image-menu" %}
+                                        {% else %}
+                                            {{ subitem.title }}
+                                        {% endif %}
+                                    </a>
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                        {% endfor %}
-              <!--end level 3-->
-
-                        </ul>
-                        </li>
-                        {% else %}
-                        <li><a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-        <!--end level 2-->
-                      </ul>
-                    </li>
-
-                {% else %}
-              <li class="nav-item {{item.active_class}}"><a class="nav-link" href="{{ item.href }}">{{ item.text }}</a></li>
-            {% endif %}
-          {% endfor %}
-         <!--end level 1-->
-            </ul>
-
-        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
 
 
-<script>
-
-</script>
 
