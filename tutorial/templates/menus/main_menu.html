@@ -1,5 +1,5 @@
 
-{% load i18n wagtailcore_tags blog_tags wagtailimages_tags wagtailfontawesome %}
+{% load i18n wagtailcore_tags menus_tags wagtailimages_tags wagtailfontawesome %}
 {% company_logo as logo %}
 
 
@@ -15,17 +15,40 @@
 {% include 'menus/components/language.html' %}
 {% include 'menus/components/user.html' %}
 
-{#% include "search/search_box.html" %#}
 </ul>
 
 <!--Header section, logo title-->
     <a class="navbar-brand ms-3" href="/">{{ logo.name }} {% image logo.logo fill-50x50 %}</a>
 
+{% load menus_tags %}
+{# Your template; perhaps base.html #}
 
+{% get_menu "main" as navigation %}
 
-        {% include "menus/navigation.html" %}
+<ul class="navbar-nav">
+{% for item in navigation.menu_items.all %}
+        <li class="nav-item dropdown{{item.active_class}}">
+           
+           <a href="{{ item.link }}" id="menu" data-bs-toggle="dropdown" 
+           class="nav-link dropdown-toggle" data-bs-display="static">
+               {{ item.title }}</a>
+  
+    <ul class="dropdown-menu">
+        {% for menu in item.link_page.get_children %}
+        <li class"dropdown-submenu">
 
+           <a href="{{ menu.url }}" data-bs-toggle="dropdown" 
+           class="dropdown-item dropdown-toggle">{{ menu.title }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+</li>
 
+ 
+
+{% endfor %}
+
+</ul>
 
 
 <!--Utilities section-->

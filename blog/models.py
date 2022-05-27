@@ -19,6 +19,25 @@ else:
     from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 
 
+class HomesPage(Page):
+    introduction = models.TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("introduction"),
+    ]
+    
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['blog-page'] = Page.objects.get().get_children()
+        return context
+
+"""
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['blog_index_page'] = Page.objects.get().all()
+        return context
+"""
+
 class ImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     caption = blocks.CharBlock(required=False)
@@ -69,8 +88,15 @@ class BlogIndexPage(Page):
     ]
 
     parent_page_types = ["home.HomePage"]
+    
+    def get_context(self, request):
+        context = super(BlogIndexPage, self).get_context(request)
+        context['menuitems'] = request.self.get_descendants(inclusive=True).live().in_menu()
+        #context['menuitems'] = Page.objects.child_of(self)
+        
 
 
+"""
 @register_snippet
 class Menu(ClusterableModel):
 
@@ -166,3 +192,5 @@ class CompanyLogo(models.Model):
 
     def __str__(self):
         return self.name
+        
+"""
