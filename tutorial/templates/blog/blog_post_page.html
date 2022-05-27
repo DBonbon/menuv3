@@ -1,0 +1,7 @@
+{% load i18n wagtailimages_tags %}
+
+<h1>{{ page.title }}</h1>
+
+<p>{% translate "Category" %}: <b>{{ page.category }}</b></p>
+
+{% image page.image max-200x200 %} {{ page.body }}

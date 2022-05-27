@@ -1,0 +1,792 @@
+/*Bootstrap core imports - adjust for your case*/
+@import "./bootstrap/functions";
+@import "./bootstrap/variables";
+@import "./bootstrap/mixins";
+
+
+/* colors
+Primary - #f1e3d3; background #FC38C4
+Secondary : #CD7F32 - menus header, footer #24dee1
+success:
+danger:  #00897b; Page headers
+warning: #800020;card-hover-BG
+info
+Alarm - Titles headers: #5F9EA0
+*/
+@import url(//fonts.googleapis.com/css?family=Montserrat:300,500);
+
+
+$primary: #F07636;
+$secondary:#a0e27f;
+$success:white;
+$danger: #00897b;
+$warning:#800020;
+$info:#C2B280;
+$text-primary:white;
+$light:light;
+$dark:dark;
+$tertiary:#c9f7b2;
+$quaternary:#a85028;
+$quinary:#3d9610; //e2ffd3
+$senary:#A1845C; //author name
+
+$custom-colors: (
+  "tertiary":$tertiary,
+  "quaternary":$quaternary,
+  "quinary":$quinary,
+  "senary":$senary,
+);
+
+/*text fonts*/
+$base-text-color: black;
+$base-font-size:1rem;
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+//quaternary, quinary, senary
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+);
+
+/* 1. Global styles*/
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    position: relative;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+}
+
+p, a, i, span, b {
+    color: $base-text-color;
+}
+
+.author {
+    color:$senary!important;
+    font-weight: 400!important;
+    font-size: $spacer *1.2;
+}
+.card-banner p, .card-banner a, .card-banner i, .card-banner span, .tab-content p {
+    color:invert($base-text-color);
+}
+@media (min-width: 576px) {
+
+    body {
+        font-size:$base-font-size*1.25;
+    }
+}
+
+@media (min-width: 576px) {
+
+    page {
+        margin-left: ($spacer * 2) !important;
+        margin-right: ($spacer * 2) !important;
+    }
+}
+
+.page-titles {
+    justify-content:center;
+    margin-bottom:10;
+    margin-top:$spacer * 2;
+}
+.page-title {
+  font-weight: 300;
+  font-family: 'Lato', sans-serif;
+  font-size: 2.5em;
+  color: $primary;
+}
+
+.page-intro {
+    font-size:1.4em;
+}
+
+.article .card-subtitle {
+    font-size: 1.1em;
+}
+
+
+a {
+    color: $quaternary;
+}
+h1, h2, h3, h4, h5 {
+    color: $primary;
+}
+
+h1 {
+   font-size: 2.5em;
+}
+h2 {
+   font-size: 2.1em;
+}
+h3 {
+   font-size: 1.8em;
+}
+h4 {
+   font-size: 1.6em;
+}
+h5 {
+   font-size: 1.4em;
+}
+h6 {
+   font-size: 1.2em;
+}
+
+.x-small {
+    font-size:0.875em;
+}
+
+/*tags cats*/
+.tags a {
+    color:$quinary;
+}
+.tags a:hover {
+    color:$quaternary;
+}
+.tags .tag {
+    font-size: 0.875em;
+    font-weight: 200;
+}
+.tags .category {
+    font-size: 1.1em;
+    font-weight: 400;
+}
+/* Block Text - relates to all elements with text paragraph so it has the same color and margin */
+
+/* equals h2 */
+.block-header {
+    text-align: center;
+    font-size: 2em;
+    color: $primary;
+}
+/* to make space for the footer on the bottom of the page
+to remove all white references after applying this
+*/
+.block-text {
+   color: white;
+   margin-left: 4rem !important;
+   padding-right: 4rem !important;
+}
+/*article card setting*/
+.column .card {
+    border:0;
+}
+
+/* index page */
+.index-page .row {
+    justify-content:center;
+}
+.index-page .grayscale {
+	   filter: grayscale(100%);
+	}
+
+.index-page .card {
+    margin-bottom:$spacer;
+    padding-left:0;
+    padding-right:0;
+}
+.index-page .card-title {
+    font-size: 1.4em;
+    line-height: 95%;
+    color:$quinary;
+}
+
+.index-page .card-img-overlay {
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+/* general elements for overlay images cards */
+
+.grayscale {
+	   filter: grayscale(100%);
+	}
+.mask {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* card-banner also try it to other cards*/
+.card-banner .card-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card-banner .card-image-overlay {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    display:block;
+    height: auto;
+    background: rgba(0,0,0,0.6);
+    left: 0p;
+}
+
+
+.card-banner .content {
+    display: flex;
+    align-items:center;
+}
+
+.card-banner .content {
+   text-align: center;
+}
+.card-banner .content p {
+    text-align:left!important;
+}
+
+.card-banner .btn-secondary {
+    margin-right: 5vw;
+    margin-left:5vw;
+    border-color: $primary;
+    min-height: 15vh;
+    max-width:15vw;
+    background-color:rgba($secondary, 0.5);
+}
+.card-banner .btn-secondary:hover {
+    border-color: $secondary;
+    background-color:rgba($primary, 0.5);
+}
+
+/* for the images and text inside streamfields */
+.block-paragraph p {
+    color: black;
+}
+.block-code {
+}
+
+.block-image-right {
+    float: right;
+    margin-left: 20px;
+    font: italic 0.875em;
+}
+.block-image-left {
+    float: left;
+    margin-right: 20px;
+    font: italic 0.875em;
+}
+.block-image-center {
+    display: grid;
+    /* justify-content works here because Wagtail creates an image of fixed dimensions */
+    justify-content: center;
+    overflow: hidden;
+    font: italic 0.875em;
+}
+/* for the videos inside streamfields */
+.block-video-right {
+    float: right;
+    margin-left: 20px;
+    font: italic 0.875em;
+}
+.block-video-left {
+    float: left;
+    margin-right: 20px;
+    font: italic 0.875em;
+}
+.block-video-center {
+    display: grid;
+    /* margin auto works here because embed adapts to size of container */
+    margin: auto;
+    overflow: hidden;
+    font: italic 0.875em;
+}
+.block-video-small {
+    width: 240px;
+    height: auto;
+}
+.block-video-medium {
+    width: 480px;
+    height: auto;
+    max-width: 100%;
+}
+.block-video-large {
+    width: 2400px;
+    height: auto;
+    max-width: 100%;
+}
+
+.block-paragraph {
+    max-width:80%;
+}
+/* to make embedded objects responsive https://docs.wagtail.io/en/v2.9/topics/writing_templates.html#responsive-embeds */
+
+.responsive-object {
+    position: relative;
+}
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/* for the images with text overlay on cms pages */
+.card-img-overlay .card-subtitle, .card-text {
+    color: white;
+}
+p.card-subtitle {
+}
+.card.article, .card.theme {
+    border: none;
+}
+
+.img-front {
+    position: relative;
+    max-width: 100%;
+}
+/* the color overlay in case no image is added */
+.img-default {
+    position: relative;
+    max-width: 100%;
+    background-color: $secondary;
+}
+
+/* the overlay in conjunction with a:hover */
+.img-background {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    left: 0;
+    background-color: $primary;
+    opacity: 0;
+    transition: opacity 300ms;
+}
+a:hover .img-background {
+    opacity: 0.6;
+}
+/* to adjust inline code to Wagtailcodeblock default styling */
+code {
+    background-color: #F3F0EE;
+    padding: 2px;
+}
+
+/* the navigation menu */
+a.menuitem {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.nav-link, .fa-search, .nav-language{
+    color: $secondary !important;
+}
+
+.nav-link:hover, .fa-search:hover, .nav-language:hover {
+    color: $primary !important;
+}
+
+.nav-item.active {
+  border-bottom:2px solid $primary;
+  color: red !important;
+}
+
+/* slightly enlarge the image on hover */
+
+
+a.menuitem .image-menu {
+    transition: transform 300ms;
+}
+a.menuitem:hover .image-menu {
+    transform: scale(1.1);
+}
+a.menuicon:hover {
+    text-decoration: none;
+}
+/*language overlay icon size*/
+.lang2 {
+    font-size:1.5em;
+}
+
+/* to vertically aligne the fa-layers icon*/
+.languages .fa-layers {
+  top: 0.5rem!important;
+}
+
+.languages .dropdown-menu {
+  top: 2.5rem!important;
+}
+
+@media (min-width: 576px) {
+
+    a.dropdown-menu {
+        min-width: 60px;
+    }
+}
+
+a.dropdown-item {
+    color: $secondary !important;
+}
+
+a.dropdown-item:hover {
+    color: $secondary;
+}
+
+/* for the logo */
+@media (max-width: 576px) {
+
+    .navbar ul {
+        max-width: 100%!important;
+    }
+}
+
+.navbar .navbar-brand {
+    font-family: 'Mochiy Pop P One', sans-serif!important;;
+    font-size: 30px !important;
+    color: $primary !important;
+}
+
+
+.nav-link .fa {
+    font-size:150%;
+    font-weight:100;
+}
+
+.navbar .fa {
+    font-size:2rem;
+}
+.nav-item {
+    font-size:1.5rem;
+}
+
+/*dropdown menu*/
+.dropdown-submenu {
+  position: relative;
+}
+
+.submenu .dropdown-menu {
+  top:20px;
+  left:100%!important;
+  margin-top: -1px;
+}
+
+.dropdown-menu li a:hover {
+  color:$primary!important;
+}
+
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+}
+.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+.dropdown-menu > li:hover > .submenu{ display: block; }
+
+.dropdown-item {
+    width:auto;
+}
+
+/* for the parent item in the dropdown-menu */
+.navbar-nav li a b {
+    color:$danger;
+}
+.navbar-nav li a b:hover {
+    color:$warning;
+}
+
+/* components class to hide the dropdown-toggle for utilities items*/
+.components .dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.components .dropdown-toggle::after {
+    content: none;
+}
+
+/*language badge*/
+.nav-item .badgeClass{
+  position: relative;
+}
+.nav-item .badgeClass span{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: block;
+  font-size:.4em;
+}
+
+/* for the footer; see also settings for html and body */
+/* for the footer; see also settings for html and body */
+footer {
+    background-color: $primary;
+    height: 50px;
+    padding-top: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+footer ul {
+    list-style-type: none;
+    text-align: center;
+}
+footer ul li{display: inline;}
+
+footer li span {
+    display: inline;
+    color: white;
+    font-size: 12px;
+    margin-right: 40px;
+}
+
+footer ul li a {
+  color: #c7d2ea;
+  padding-right: 15px;
+  -webkit-transition: 0.1s ease-in;
+  -o-transition: 0.1s ease-in;
+  transition: 0.1s ease-in;
+
+}
+
+footer ul li a:hover {
+  -webkit-transform: translate3d(0px, -5px, 0px);
+  transform: translate3d(0px, -5px, 0px);
+	color: $quaternary;
+}
+
+footer .ficon, {
+    font-size: 1.3em;
+}
+footer .fa-envelope-square, footer .fa-phone {
+    font-size: 1.3rem;
+}
+
+/* for the comment section on article pages */
+.comment-form  {
+    width: 800px;
+    max-width: 100%;
+    margin-left: 0;
+}
+.xtdcomment {
+    border: 1px solid lightgrey;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.media-list {
+    width: 800px;
+    max-width: 100%;
+    margin-left: 0;
+}
+/* for thumbnail image in comments */
+.profile-image-thumbnail {
+    float: left;
+    width: 64px;
+    height: 64px;
+    max-width: 100%;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* contact form*/
+.contact-form {
+    list-style-type: none;
+    padding-left: 0;
+}
+.contact-form li {
+    margin-bottom: 1.5rem;
+}
+.contact-form label {
+    display: block;
+    font-weight: bold;
+    color:#7A185E;
+}
+
+.contact-form helptext {
+    display: block;
+    font-size: 80%;
+    color:#7A185E;
+}
+
+.contact {
+    background-color: #f1e3d3 !important;
+}
+
+.contact-form input, textarea {
+    border-color:#198587;
+}
+
+/* homepage styles might be relevant for other
+in particular check card-header if it creates problem
+move to home page styles only*/
+
+
+/*carousel3
+.carousel-inner {
+    height: auto;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    object-position: center;
+}
+.carousel .carousel-item img {
+  object-fit: cover;
+  object-position: center;
+}
+.carousel{
+  color: #202020 ;
+  background-color: #202020  !important;
+  margin: 0 auto;
+}
+*/
+
+.overlay {
+  position: absolute;
+  top: 80%;
+  left: 0%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  color: white;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  width: 3vw;
+  height: 3vw;
+}
+
+.carousel-item {
+  text-align: center
+}
+
+.btn-oneclick {
+    background-color: green;
+}
+
+.fa-layers-counter {
+    background-color:$warning;
+}
+
+
+/*navigation tabs and pills*/
+
+.tab-pane .overlay::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background: rgba(0,0,0,0.5);
+}
+
+
+
+/*custom tab style 2 header */
+/*custom tab style 2*/
+.custom_tab_style2.nav-tabs {
+  border-bottom: 2px solid #ffb700; /*defines the bottom line*/
+  display: flex;
+  justify-content: center;
+}
+
+.custom_tab_style2.nav-tabs .nav-link {
+  margin-bottom: -2px;
+  padding: 10px 25px;
+  border-width: 2px;
+}
+
+.custom_tab_style2 .nav-link.active {
+  color: #495057;
+  background-color: #f8f9fa;
+  border-width: 2px;
+  border-color: #ffb700 #ffb700 transparent !important;
+}
+
+.custom_tab_style2 .nav-link:focus,
+.custom_tab_style2 .nav-link:hover {
+  border-width: 2px;
+  border-color: #ffb700 #ffb700 transparent !important;
+}
+
+/*side tab */
+
+.nav-pills-costum {
+    border-color: transparent!important;
+}
+.nav-pills-costum .nav-link-costum {
+    background: transparent;
+    border: 1px solid purple!important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+.nav-pills-costum  .nav-link.active {
+  color: $primary!important;/*primary*/
+  background-color: $secondary!important; /*secondary*/
+}
+
+.nav-pills-costum {
+    margin-top:10vh;
+}
+
+
+/* buttons and btn-group*/
+.btn-group-banner {
+  position: absolute;
+  bottom: 8px;
+}
+
+.btn-group button, .btn-secondary {
+    background-color: rgba(204, 204, 204, .5);
+    resize: both;
+    min-height: 15vh;
+    max-width:15vw
+}
+
+/* Banner home banner and backgroud image to split to BG if needed */
+.home-banner .bg-image {
+    position: relative;
+    min-height:100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.home-banner .bg-image::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0,0,0,0.5);
+}
+.home-banner .card-overlay {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    display:block;
+    height: auto;
+    background: rgba(0,0,0,0.6);
+    transform: skew(0deg);
+    left: 0px;
+}
+.home-banner .card-subtitle {
+
+    background-color: rgba(0,0,0,0.6);
+}
+
+.home-banner h3, h4, p {
+    position: relative;
+}
+
+@import "./bootstrap/bootstrap";

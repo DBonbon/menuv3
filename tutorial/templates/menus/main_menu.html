@@ -1,0 +1,36 @@
+
+{% load i18n wagtailcore_tags blog_tags wagtailimages_tags wagtailfontawesome %}
+{% company_logo as logo %}
+
+
+<!-- Navbar-->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+<div class="container-fluid justify-content-between">
+
+<ul class='navbar-nav flex-row components order-sm-2'>
+
+
+{% include 'menus/components/search.html' %}
+{% include 'menus/components/contact.html' %}
+{% include 'menus/components/language.html' %}
+{% include 'menus/components/user.html' %}
+
+{#% include "search/search_box.html" %#}
+</ul>
+
+<!--Header section, logo title-->
+    <a class="navbar-brand ms-3" href="/">{{ logo.name }} {% image logo.logo fill-50x50 %}</a>
+
+
+
+        {% include "menus/navigation.html" %}
+
+
+
+
+<!--Utilities section-->
+
+</div>
+</nav>
+
+<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js"></script>

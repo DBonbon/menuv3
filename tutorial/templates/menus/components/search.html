@@ -1,0 +1,40 @@
+{% block content %}
+<style>
+
+.search-icon {
+  display: block;
+  display: inline-block;
+  position: absolute;
+
+  color: #d4566b;
+}
+
+</style>
+<li class="nav-item dropdown">
+<span class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+
+  <i class="fas fa-search">
+  </i>
+  </span>
+
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+					<li>
+                        <form action="{% url 'search' %}" method="get"
+                        class="search" role="search">
+                                <input type="text" name="query" class="form-control" placeholder="Search here..."
+                                aria-label="Search here..." autocomplete="off">
+                               <!--
+                               <a href="#" class="search-icon">
+                                   <i class="fas fa-search">
+                                   </i>
+                             </a>
+                             -->
+
+                        </form>
+                    </li>
+                    </ul>
+
+
+</li>
+
+{% endblock %}
