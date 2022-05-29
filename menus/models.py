@@ -14,6 +14,8 @@ from wagtail.core.models import Orderable
 from wagtail.snippets.models import register_snippet
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
+from blog.models import HomesPage
+
 
 class MenuItem(Orderable):
 
@@ -59,6 +61,12 @@ class MenuItem(Orderable):
         elif self.link_title:
             return self.link_title
         return 'Missing Title'
+    
+    @property    
+    def get_context(self, request):
+        context = super(HomesPage, self).get_context(request)
+        context['menuitems'] = request.site.root_page.get_descendants(inclusive=True).live().in_menu()
+
 
 
 @register_snippet

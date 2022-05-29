@@ -16,9 +16,9 @@
 }
 </style>
 
-{% load wagtailimages_tags cms_tags %}
+{% load wagtailimages_tags menus_tags %}
 
-{% get_menu "main" None request.user.is_authenticated as navigation %}
+{% get_menu "main" as navigation %}
 {% company_logo as logo %}
 
 
@@ -28,38 +28,38 @@
         <div class="collapse navbar-collapse" id="navbar1">
             <ul class="navbar-nav">
          <!--level 1-->
-             {% for item in menu_items %}
-             {% if item.sub_menu %}
+             {% for item in navigation.menu_items.all %}
+             {% if item.link_page.get_children %}
                 <li class="nav-item dropdown{{item.active_class}}">
-                   <a href="{{ item.href }}" id="menu" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" data-bs-display="static">{{ item.text }}</a>
+                   <a href="{{ item.url }}" id="menu" data-bs-toggle="dropdown" class="nav-link dropdown-toggle" data-bs-display="static">{{ item.title }}</a>
 
                     <ul class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ item.href }}"><b>{{ item.text }}</b></a>
+                        <a class="dropdown-item" href="{{ item.url }}"><b>{{ item.title }}</b></a>
             <!--level 2-->
-                        {% for sub_item in item.sub_menu.items %}
-                        {% if sub_item.has_children_in_menu %}
+                        {% for sub_item in item.link_page.get_children %}
+                        {% if sub_item.link_page.get_children %}
                         <li class="dropdown-submenu">
-                            <a href="{{ sub_item.href }}" data-bs-toggle="dropdown" class="dropdown-item dropdown-toggle">{{ sub_item.text }}</a>
+                            <a href="{{ sub_item.url }}" data-bs-toggle="dropdown" class="dropdown-item dropdown-toggle">{{ sub_item.title }}</a>
                             <ul class="dropdown-menu">
-                                {% if sub_item.has_children_in_menu %}
-                                <a class="dropdown-item" href="{{ sub_item.href }}"><b>{{ sub_item.text }}</b></a>
+                                {% if sub_item.link_page.get_children %}
+                                <a class="dropdown-item" href="{{ sub_item.url }}"><b>{{ sub_item.title }}</b></a>
                                 {% endif %}
             <!--level 3-->
-                        {% for subsub_item in sub_item.sub_menu.items %}
-                        {% if subsub_item.has_children_in_menu %}
+                        {% for subsub_item in sub_item.link_page.get_children %}123
+                        {% if subsub_item.link_page.get_children %}
                         <li class="dropdown-submenu">
-                            <a href="{{ subsub_item.href }}" data-bs-toggle="dropdown" class="dropdown-item dropdown-toggle">{{ subsub_item.text }}</a>
+                            <a href="{{ subsub_item.url }}" data-bs-toggle="dropdown" class="dropdown-item dropdown-toggle">{{ subsub_item.title }}</a>
                             <ul class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ subsub_item.href }}"><b>{{ subsub_item.text }}</b></a>
+                                <a class="dropdown-item" href="{{ subsub_item.url }}"><b>{{ subsub_item.title }}</b></a>
             <!--level 4-->
-                        {% for subsubsub_item in subsub_item.sub_menu.items %}
-                          <li><a class="dropdown-item" href="{{ subsubsub_item.href }}">{{ subsubsub_item.text }}</a></li>
+                        {% for subsubsub_item in subsub_item.link_page.get_children %}
+                          <li><a class="dropdown-item" href="{{ subsubsub_item.url }}">{{ subsubsub_item.title }}</a></li>
                         {% endfor %}
             <!--end level 4-->
                              </ul>
                             </li>
                             {% else %}
-                        <li><a class="dropdown-item" href="{{ subsub_item.href }}">{{ subsub_item.text }}</a></li>
+                        <li><a class="dropdown-item" href="{{ subsub_item.url }}">{{ subsub_item.title }}</a></li>
                         {% endif %}
                         {% endfor %}
               <!--end level 3-->
@@ -67,7 +67,7 @@
                         </ul>
                         </li>
                         {% else %}
-                        <li><a class="dropdown-item" href="{{ sub_item.href }}">{{ sub_item.text }}</a></li>
+                        <li><a class="dropdown-item" href="{{ sub_item.url }}">{{ sub_item.title }}</a></li>
                         {% endif %}
                         {% endfor %}
         <!--end level 2-->
@@ -75,7 +75,7 @@
                     </li>
 
                 {% else %}
-              <li class="nav-item {{item.active_class}}"><a class="nav-link" href="{{ item.href }}">{{ item.text }}</a></li>
+              <li class="nav-item {{item.active_class}}"><a class="nav-link" href="{{ item.url }}">{{ item.title }}</a></li>
             {% endif %}
           {% endfor %}
          <!--end level 1-->

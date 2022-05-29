@@ -19,38 +19,23 @@
 
 <!--Header section, logo title-->
     <a class="navbar-brand ms-3" href="/">{{ logo.name }} {% image logo.logo fill-50x50 %}</a>
+{% include 'menus/fommesnav.html' %}
+{% include 'menus/top_menu.html' %}
 
-{% load menus_tags %}
-{# Your template; perhaps base.html #}
+{% get_site_root as site_root %}
 
-{% get_menu "main" as navigation %}
-
-<ul class="navbar-nav">
-{% for item in navigation.menu_items.all %}
-        <li class="nav-item dropdown{{item.active_class}}">
-           
-           <a href="{{ item.link }}" id="menu" data-bs-toggle="dropdown" 
-           class="nav-link dropdown-toggle" data-bs-display="static">
-               {{ item.title }}</a>
-  
-    <ul class="dropdown-menu">
-        {% for menu in item.link_page.get_children %}
-        <li class"dropdown-submenu">
-
-           <a href="{{ menu.url }}" data-bs-toggle="dropdown" 
-           class="dropdown-item dropdown-toggle">{{ menu.title }}</a>
-        </li>
-        {% endfor %}
-        </ul>
-</li>
-
- 
-
+{% for menuitem in menuitems %}
+  <li class="presentation {{ menuitem.title|lower|cut:" " }}{% if menuitem.active %} active{% endif %}{% if menuitem.show_dropdown %} has-submenu{% endif %}">
+      {% if menuitem.show_dropdown %}
+          <a href="{% pageurl menuitem %}" class="allow-toggle">{{ menuitem.title }} <span><a class="caret-custom dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a></span></a>
+              {% top_menu_children parent=menuitem %}
+              {# Used to display child menu items #}
+      {% else %}
+          <a href="{% pageurl menuitem %}" role="menuitem">{{ menuitem.title }}</a>
+      {% endif %}
+  </li>
 {% endfor %}
-
-</ul>
-
-
+ 
 <!--Utilities section-->
 
 </div>

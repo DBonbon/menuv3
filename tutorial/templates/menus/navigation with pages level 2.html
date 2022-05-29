@@ -1,0 +1,38 @@
+
+{% load menus_tags %}
+{# Your template; perhaps base.html #}
+
+{% get_menu "main" as navigation %}
+
+<ul class="navbar-nav">
+<!--level 1-->
+{% for item in navigation.menu_items.all %}
+{% if item.link_page.get_children %}
+        <li class="nav-item dropdown{{item.active_class}}">
+           <a href="{{ item.link }}" id="menu" data-bs-toggle="dropdown" 
+           class="nav-link dropdown-toggle" data-bs-display="static">
+        {{ item.title }}</a>
+        <!--level 2-->
+    <ul class="dropdown-menu">
+        {% for subitem in item.link_page.get_children %}
+        <li class"dropdown-submenu">
+           <a href="{{ subitem.url }}" data-bs-toggle="dropdown" 
+           class="dropdown-item dropdown-toggle">{{ subitem.title }}</a>
+           <!--level 3-->
+           {% if subitem.link_page.get_children %}
+           
+           {% endif %}
+           <!--end level 3-->
+        </li>
+        {% endfor %}
+        </ul>
+        <!--end level 2-->
+</li>
+
+{% else %}
+              <li class="nav-item {{item.active_class}}"><a class="nav-link" href="{{ item.link }}">{{ item.title }}</a></li>
+            {% endif %}
+
+{% endfor %}
+<!--end level 1-->
+</ul>
