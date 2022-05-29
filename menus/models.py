@@ -14,9 +14,9 @@ from wagtail.core.models import Orderable
 from wagtail.snippets.models import register_snippet
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
-from blog.models import HomesPage
+from blog.models import HomePage
 
-
+"""
 class MenuItem(Orderable):
 
     link_title = models.CharField(
@@ -64,7 +64,7 @@ class MenuItem(Orderable):
     
     @property    
     def get_context(self, request):
-        context = super(HomesPage, self).get_context(request)
+        context = super(HomePage, self).get_context(request)
         context['menuitems'] = request.site.root_page.get_descendants(inclusive=True).live().in_menu()
 
 
@@ -103,3 +103,4 @@ class CompanyLogo(models.Model):
 
     def __str__(self):
         return self.name
+"""

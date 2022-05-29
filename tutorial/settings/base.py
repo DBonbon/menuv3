@@ -24,10 +24,10 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-    'home',
+    #'home',
     'search',
     'blog',
-    'menus',
+    #'menus',
 
     "wagtail_localize",
     "wagtail_localize.locales",

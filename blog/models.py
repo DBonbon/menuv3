@@ -19,7 +19,8 @@ else:
     from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 
 
-class HomesPage(Page):
+class HomePage(Page):
+    template = "blog/home_page.html"
     introduction = models.TextField(blank=True)
 
     content_panels = Page.content_panels + [
@@ -28,7 +29,7 @@ class HomesPage(Page):
     
     def get_context(self, request):
         context = super().get_context(request)
-        context['blog-page'] = Page.objects.get().get_children()
+        context['home_page'] = Page.objects.get().get_children()
         return context
 
 """
@@ -77,7 +78,7 @@ class BlogPostPage(Page):
         SnippetChooserPanel("category"),
     ]
 
-    parent_page_types = ["blog.BlogIndexPage"]
+    parent_page_types = ["blog.BlogIndexPage",]
 
 
 class BlogIndexPage(Page):
@@ -87,96 +88,83 @@ class BlogIndexPage(Page):
         FieldPanel("introduction"),
     ]
 
-    parent_page_types = ["home.HomePage"]
-    
     def get_context(self, request):
         context = super(BlogIndexPage, self).get_context(request)
         context['menuitems'] = request.self.get_descendants(inclusive=True).live().in_menu()
         #context['menuitems'] = Page.objects.child_of(self)
         
 
+class MenuItem(Orderable):
 
-"""
+    link_title = models.CharField(
+        blank=True,
+        null=True,
+        max_length=50
+    )
+    link_url = models.CharField(
+        max_length=500,
+        blank=True
+    )
+    link_page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    open_in_new_tab = models.BooleanField(default=False, blank=True)
+
+    page = ParentalKey("Menu", related_name="menu_items")
+
+    panels = [
+        FieldPanel("link_title"),
+        FieldPanel("link_url"),
+        PageChooserPanel("link_page"),
+        FieldPanel("open_in_new_tab"),
+    ]
+
+    @property
+    def link(self):
+        if self.link_page:
+            return self.link_page.url
+        elif self.link_url:
+            return self.link_url
+        return '#'
+
+    @property
+    def title(self):
+        if self.link_page and not self.link_title:
+            return self.link_page.title
+        elif self.link_title:
+            return self.link_title
+        return 'Missing Title'
+    
+    @property    
+    def get_context(self, request):
+        context = super(HomePage, self).get_context(request)
+        context['menuitems'] = request.site.root_page.get_descendants(inclusive=True).live().in_menu()
+
+
+
 @register_snippet
 class Menu(ClusterableModel):
+    """The main menu clusterable model."""
 
-    title = models.CharField(max_length=50)
-    slug = AutoSlugField(populate_from='title', editable=True, help_text="Unique identifier of menu. Will be populated automatically from title of menu. Change only if needed.")
+    title = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="title", editable=True)
+    # slug = models.SlugField()
 
     panels = [
         MultiFieldPanel([
-            FieldPanel('title'),
-            FieldPanel('slug'),
-        ], heading=("Menu")),
-        InlinePanel('menu_items', label=("Menu Item"))
+            FieldPanel("title"),
+            FieldPanel("slug"),
+        ], heading="Menu"),
+        InlinePanel("menu_items", label="Menu Item")
     ]
 
     def __str__(self):
         return self.title
-
-
-class MenuItem(Orderable):
-    menu = ParentalKey('Menu', related_name='menu_items', help_text=("Menu to which this item belongs"))
-    title = models.CharField(max_length=50, help_text=("Title of menu item that will be displayed"))
-    link_url = models.CharField(max_length=500, blank=True, null=True, help_text=("URL to link to, e.g. /accounts/signup (no language prefix, LEAVE BLANK if you want to link to a page instead of a URL)"))
-    link_page = models.ForeignKey(
-        Page, blank=True, null=True, related_name='+', on_delete=models.CASCADE, help_text=("Page to link to (LEAVE BLANK if you want to link to a URL instead)"),
-    )
-    title_of_submenu = models.CharField(
-        blank=True, null=True, max_length=50, help_text=("Title of submenu (LEAVE BLANK if there is no custom submenu)")
-    )
-    icon = models.ForeignKey(
-        'wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',
-    )
-    show_when = models.CharField(
-        max_length=15,
-        choices=[('always', ("Always")), ('logged_in', ("When logged in")), ('not_logged_in', ("When not logged in"))],
-        default='always',
-    )
-
-    panels = [
-        FieldPanel('title'),
-        FieldPanel('link_url'),
-        PageChooserPanel('link_page'),
-        FieldPanel('title_of_submenu'),
-        ImageChooserPanel('icon'),
-        FieldPanel('show_when'),
-    ]
-
-    def trans_page(self, language_code):
-        if self.link_page:
-            can_page = self.link_page
-            if language_code == settings.LANGUAGE_CODE: # requested language is the canonical language
-                return can_page
-            try:
-                language = Language.objects.get(code=language_code)
-            except Language.DoesNotExist: # no language found, return original page
-                return self.link_page
-            return Page.objects.get(language=language, can_page=can_page)
-        return None
-
-    def trans_url(self, language_code):
-        if self.link_url:
-            return '/' + language_code + self.link_url
-        elif self.link_page:
-            return self.trans_page(language_code).url
-        return None
-
-    @property
-    def slug_of_submenu(self):
-        # becomes slug of submenu if there is one, otherwise None
-        if self.title_of_submenu:
-            return slugify(self.title_of_submenu)
-        return None
-
-    def show(self, authenticated):
-        return ((self.show_when == 'always')
-                or (self.show_when == 'logged_in' and authenticated)
-                or (self.show_when == 'not_logged_in' and not authenticated))
-
-    def __str__(self):
-        return self.title
-
+        
 
 @register_snippet
 class CompanyLogo(models.Model):
@@ -192,5 +180,3 @@ class CompanyLogo(models.Model):
 
     def __str__(self):
         return self.name
-        
-"""
